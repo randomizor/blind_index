@@ -58,14 +58,14 @@ module BlindIndex
       value =
         case algorithm
         when :argon2id
-          t = (cost_options[:t] || (options[:slow] ? 4 : 3)).to_i
+          t = (Rails.configuration.x.blind_index.cost.t || cost_options[:t] || (options[:slow] ? 4 : 3)).to_i
           # use same bounds as rbnacl
-          raise BlindIndex::Error, "t must be between 3 and 10" if t < 3 || t > 10
+          #raise BlindIndex::Error, "t must be between 3 and 10" if t < 3 || t > 10
 
           # m is memory in kibibytes (1024 bytes)
-          m = (cost_options[:m] || (options[:slow] ? 15 : 12)).to_i
+          m = (Rails.configuration.x.blind_index.cost.m || cost_options[:m] || (options[:slow] ? 15 : 12)).to_i
           # use same bounds as rbnacl
-          raise BlindIndex::Error, "m must be between 3 and 22" if m < 3 || m > 22
+          #raise BlindIndex::Error, "m must be between 3 and 22" if m < 3 || m > 22
 
           Argon2::KDF.argon2id(value, salt: key, t: t, m: m, p: 1, length: size)
         when :pbkdf2_sha256
