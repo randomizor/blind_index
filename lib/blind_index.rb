@@ -58,12 +58,12 @@ module BlindIndex
       value =
         case algorithm
         when :argon2id
-          t = (Rails.configuration.x.blind_index.cost.t || cost_options[:t] || (options[:slow] ? 4 : 3)).to_i
+          t = (Rails.configuration.x.blind_index.cost_t || cost_options[:t] || (options[:slow] ? 4 : 3)).to_i
           # use same bounds as rbnacl
           #raise BlindIndex::Error, "t must be between 3 and 10" if t < 3 || t > 10
 
           # m is memory in kibibytes (1024 bytes)
-          m = (Rails.configuration.x.blind_index.cost.m || cost_options[:m] || (options[:slow] ? 15 : 12)).to_i
+          m = (Rails.configuration.x.blind_index.cost_m || cost_options[:m] || (options[:slow] ? 15 : 12)).to_i
           # use same bounds as rbnacl
           #raise BlindIndex::Error, "m must be between 3 and 22" if m < 3 || m > 22
 
